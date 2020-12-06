@@ -1,15 +1,4 @@
-<h2>Profile Page</h2>
-
-<h3>Welcome to your PROFILE</h3>
-
-<h2>Profile Page</h2>
-
-<h3>Welcome to your PROFILE</h3>
-
 <h3>Play your favorites:</h3>
-<% for (i=0; i < favorites.length; i++) { %>
-  <h3><%= favorites[i] %></h3>
-<% } %>
 
 <header>
   <h1><a href="https://audiomotion.dev" class="logo">audioMotion-analyzer</a> | minimal demo</h1>
@@ -21,7 +10,7 @@
 </header>
 
 <div id="container"></div>
-<audio id="audio" src="https://p.scdn.co/mp3-preview/96db6e672ef754631e5d9dd3823354bc6ab13d11?cid=5f38a0d37ed8401f9d88b8c004dfa457" controls crossorigin="anonymous"></audio>
+<audio id="audio" src="<%= track.preview_url %>" controls crossorigin="anonymous"></audio>
 
 <div class="box center">
   <button id="btn_fullscreen">Fullscreen</button>

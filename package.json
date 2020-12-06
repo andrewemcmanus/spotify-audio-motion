@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/romebell/express-authentication#readme",
   "dependencies": {
+    "audiomotion-analyzer": "^3.0.0",
     "axios": "^0.21.0",
     "bcrypt": "^5.0.0",
     "connect-flash": "^0.1.1",
@@ -29,6 +30,7 @@
     "express": "^4.17.1",
     "express-ejs-layouts": "^2.5.0",
     "express-session": "^1.17.1",
+    "method-override": "^3.0.0",
     "morgan": "^1.10.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",

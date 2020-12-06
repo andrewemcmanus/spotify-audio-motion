@@ -4,11 +4,13 @@ const layouts = require('express-ejs-layouts');
 const session = require('express-session');
 const passport = require('./config/ppConfig');
 const flash = require('connect-flash');
-const SECRET_SESSION = process.env.SECRET_SESSION;
+const SECRET_SESSION = process.env.CLIENT_SECRET;
 // console.log(SECRET_SESSION);
 const app = express();
 // add the isLoggedIn middleware here:
 const isLoggedIn = require('./middleware/isLoggedIn');
+const methodOverride = require('method-override');
+
 
 app.set('view engine', 'ejs');
 
@@ -16,6 +18,7 @@ app.use(require('morgan')('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
 app.use(layouts);
+// app.use(require(methodOverride('_method')));
 
 const sessionObject = {
   // secret: what we actually will be giving the user on our site as a session cookie
@@ -52,7 +55,16 @@ app.get('/profile', isLoggedIn, (req, res) => {
   res.render('profile');
 });
 
+app.get('/search', isLoggedIn, (req, res) => {
+  res.render('search');
+});
+
 app.use('/auth', require('./routes/auth'));
+// app.use('/song', isLoggedIn, require('./routes/user'));//mounting
+app.use('/search', isLoggedIn, require('./routes/user'));
+// app.use('/comment', isLoggedIn, require('./routes/comment'))
+app.use('/profile', isLoggedIn, require('./routes/user'));
+app.use('/trackResults', isLoggedIn, require('./routes/user'));
 
 
 const PORT = process.env.PORT || 3000;
