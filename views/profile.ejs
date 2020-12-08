@@ -1,9 +1,6 @@
 <h2>Profile Page</h2>
 
-<h3>List your favorites:</h3>
-<% for (i=0; i < favorites.length; i++) { %>
-  <h3><%= favorites[i] %></h3>
-<% } %>
+<!-- Favorites listed here (forEach) -->
 
 <header>
   <h1><a href="https://audiomotion.dev" class="logo">audioMotion-analyzer</a> | minimal demo</h1>
@@ -15,24 +12,14 @@
 </header>
 
 <div id="container"></div>
-<audio id="audio" src="<%= track.preview_url %>" controls crossorigin="anonymous"></audio>
+<audio id="audio" src="https://p.scdn.co/mp3-preview/ca1da8c34dfdb41415bc843324af783bf1c343dd?cid=5f38a0d37ed8401f9d88b8c004dfa457" controls crossorigin="anonymous"></audio>
+
+<!-- EJS: faves.preview_url -->
+<!-- add title and artist below -->
 
 <div class="box center">
   <button id="btn_fullscreen">Fullscreen</button>
 </div>
-<h5 class="genre">Give it a genre:</h5>
-    <form id="update" action="/profile/<%= result.id %>?_method=PUT" method="POST">
-      <input type="text" name="id" value="<%= genre.id %>" hidden> <!--this will desplay Name for the input and-->
-      edit: <input class="text" type="text" name="content" value="<%= genre.genre %>">
-      <input type="text" name="songId" value="<%= result.id %>" hidden>
-
-      <button class="text" type="submit">Submit</button>
-    </form>
-  </div>
-    <form  action="/profile/<%= genre.id %>?_method=DELETE" method="POST">
-      <input type="text" name="songId" id="songId" value="<%= result.id %>"hidden>
-      <button class="text" type="submit">DELETE</button>
-    </form>
 
 <div class="credits">
   <strong>audioMotion-analyzer v<span id="version"></span></strong> Copyright &copy; 2018-2020 Henrique Avila Vianna.	Source code available on <a href="https://github.com/hvianna/audioMotion-analyzer">GitHub</a>.

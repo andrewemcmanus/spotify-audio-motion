@@ -6,7 +6,7 @@ module.exports = {
      * Add altering commands here.
      *
      * Example:
-
+     
      */
 
   },
@@ -16,7 +16,7 @@ module.exports = {
      * Add reverting commands here.
      *
      * Example:
-     
+
      */
   }
 };

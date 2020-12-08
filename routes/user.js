@@ -3,7 +3,7 @@ const router = express.Router();
 require("dotenv").config();
 const db = require("../models");
 const querystring = require("querystring");
-// const passport = require('../config/ppConfig');
+const passport = require('../config/ppConfig');
 const axios = require("axios");
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
@@ -14,9 +14,9 @@ router.get('/', (req, res) => {
     res.render('/search', { tracks: [] })
 })
 
-// USER FAVORITES
+// USER FAVES
 router.get('/', (req, res) => {
-    db.favorite.findAll({
+    db.fave.findAll({
         where: {
             userId: req.session.passport.user
         }
@@ -26,19 +26,20 @@ router.get('/', (req, res) => {
         const spotifyIds = tracks.map(track => {
             return track.spotify_id
         })
-        return db.favorites.findAll({
+        return db.faves.findAll({
             where: {
                 songId: spotifyIds
             }
         })
     })
     .then((tracks) => {
-        res.render('/profile', { favorites, tracks: [] })
+        res.render('/profile', { faves, tracks: [] })
     })
 })
 
 // FIND SONGS
 router.get("/:track", (req, res) => {
+  // console.log(req.session.passport.user);
   axios
     .post(
       "https://accounts.spotify.com/api/token",
@@ -59,10 +60,10 @@ router.get("/:track", (req, res) => {
         },
       };
       let track = encodeURIComponent(req.query.track);
-      let limit = 20;
+      let resultLimit = 20;
       axios
         .get(
-          `https://api.spotify.com/v1/search?q=${track}&type=track,track&offset=0&limit=${limit}`,
+          `https://api.spotify.com/v1/search?q=${track}&type=track,track&offset=0&limit=${resultLimit}`,
           config
         )
         .then((response) => {
@@ -120,28 +121,29 @@ router.get("/:track", (req, res) => {
 // });
 
 
-// ADD TRACK TO FAVORITES
+// ADD TRACK TO FAVES
+// This is spitting out TWO new instances...one with the userId and one without
 router.post('/', (req, res) => {
-  const songId = req.body.songId;
-  // const title = req.body.title; these aren't even in the favorites database I made!
+  // const songId = req.body.songId; // or spotify_id??
+  // const title = req.body.title; // these aren't even in the faves database I made?
   // const artist = req.body.artist;
-  const preview = req.body.preview_url; // bounces in the favorites DB
-  const userId = req.session.passport.user; // fixed input type and it STILL bounces in the favorites db
-  // console.log(userId);
-  db.favorite.findOrCreate({
-      where: { songId }
+  // const preview_url = req.body.preview_url; // bounces in the faves DB
+  // const userId = req.session.passport.user; // fixed input type and it STILL bounces in the faves db
+  // console.log(userId); req.session.passport.user IS working
+  db.fave.findOrCreate({
+      where: { songId: req.body.songId },
       // defaults: {
       //   title,
       //   artist,
-      //   preview
+      //   preview_url
       // },
     })
-    .then((favorite) => {
-      db.favorite.findOrCreate({
+    .then((fave) => {
+      db.fave.findOrCreate({
         where: {
-          songId,
-          userId,
-          preview
+          songId: req.body.songId,
+          userId: req.session.passport.user,
+          preview_url: req.body.preview_url
         },
       });
     })
@@ -149,27 +151,28 @@ router.post('/', (req, res) => {
       console.log(err);
     })
     .then((result) => {
-      res.redirect('/');
+      // console.log(req.body.preview_url);
+      res.redirect('/profile');
     });
 });
 
-// DELETE TRACK FROM FAVORITES
-router.delete('/favorites/:id', async (req, res) => {
-  let trackDeleteId = req.params.id;
-  let trackToDelete = await db.favorite.destroy({
-    where: {
-      songId: trackDeleteId,
-      userId: req.session.passport.user
-    }
-  }).catch(err) => {
-    console.log(err);
-  };
-  if (!trackToDelete) {
-    res.render("Error. Try again")
-  } else {
-    res.redirect('/profile')
-  }
-})
+// DELETE TRACK FROM FAVES
+// router.delete('/faves/:id', async (req, res) => {
+//   let trackDeleteId = req.params.id;
+//   let trackToDelete = await db.fave.destroy({
+//     where: {
+//       songId: trackDeleteId,
+//       userId: req.session.passport.user
+//     },
+//   }).catch(err) => {
+//     console.log(err);
+//   };
+//   if (!trackToDelete) {
+//     res.render("Error. Try again")
+//   } else {
+//     res.redirect('/profile')
+//   }
+// })
 
 // ADD USER'S OWN GENRE LABEL
 router.put('/', (req, res) => {
@@ -177,6 +180,6 @@ router.put('/', (req, res) => {
 })
 
 // DELETE YOUR GENRE LABEL
-router.delete('/favorites/:')
+router.delete('/faves/:')
 
 module.exports = router;

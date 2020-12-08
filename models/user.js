@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.user.hasMany(models.song);
+      models.user.hasMany(models.fave);
       models.user.hasMany(models.genre);
     }
   };

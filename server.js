@@ -60,10 +60,9 @@ app.get('/search', isLoggedIn, (req, res) => {
 });
 
 app.use('/auth', require('./routes/auth'));
-// app.use('/song', isLoggedIn, require('./routes/user'));//mounting
 app.use('/search', isLoggedIn, require('./routes/user'));
-// app.use('/comment', isLoggedIn, require('./routes/comment'))
 app.use('/profile', isLoggedIn, require('./routes/user'));
+app.use('/playback', isLoggedIn, require('./routes/user'));
 app.use('/trackResults', isLoggedIn, require('./routes/user'));
 
 
