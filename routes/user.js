@@ -124,12 +124,6 @@ router.get("/:track", (req, res) => {
 // ADD TRACK TO FAVES
 // This is spitting out TWO new instances...one with the userId and one without
 router.post('/', (req, res) => {
-  // const songId = req.body.songId; // or spotify_id??
-  // const title = req.body.title; // these aren't even in the faves database I made?
-  // const artist = req.body.artist;
-  // const preview_url = req.body.preview_url; // bounces in the faves DB
-  // const userId = req.session.passport.user; // fixed input type and it STILL bounces in the faves db
-  // console.log(userId); req.session.passport.user IS working
   db.fave.findOrCreate({
       where: { songId: req.body.songId },
       // defaults: {
