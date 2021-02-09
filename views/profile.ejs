@@ -1,7 +1,3 @@
-<h2>Profile Page</h2>
-
-<!-- Favorites listed here (forEach) -->
-
 
 <header>
   <h1><a href="https://audiomotion.dev" class="logo">audioMotion-analyzer</a> | minimal demo</h1>
@@ -13,10 +9,10 @@
 </header>
 
 <div id="container"></div>
-<audio id="audio" src="https://p.scdn.co/mp3-preview/ca1da8c34dfdb41415bc843324af783bf1c343dd?cid=5f38a0d37ed8401f9d88b8c004dfa457" controls crossorigin="anonymous"></audio>
+<audio id="audio" controls crossorigin="anonymous">
+  <source src="https://p.scdn.co/mp3-preview/d3505ccf3a7a775c6ce34d0b241ed40969bfef2d?cid=5f38a0d37ed8401f9d88b8c004dfa457" type="audio/mpeg" />
+</audio>
 
-<!-- EJS: faves.preview_url -->
-<!-- add title and artist below -->
 
 <div class="box center">
   <button id="btn_fullscreen">Fullscreen</button>
@@ -26,10 +22,12 @@
   <strong>audioMotion-analyzer v<span id="version"></span></strong> Copyright &copy; 2018-2020 Henrique Avila Vianna.	Source code available on <a href="https://github.com/hvianna/audioMotion-analyzer">GitHub</a>.
   Live stream: <a href="https://federalfm.ufpel.edu.br">Rádio Federal FM</a>.
 </div>
+<h2>Profile Page</h2>
+
+
 
 <script type="module">
   import AudioMotionAnalyzer from 'https://cdn.skypack.dev/audiomotion-analyzer?min';
-
 
   try {
     var audioMotion = new AudioMotionAnalyzer(

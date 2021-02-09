@@ -1,3 +1,13 @@
+# TO DO:
+
+### Page Structure:
+* /profile: make favorites list populate on page, just as the search results do
+* /playback: click on a song's preview_url and direct to playback page
+
+### Functionality
+* /preview_url: make this actually work (EJS code? <%= track.preview_url %>)
+*
+
 # Express Authentication
 
 Express authentication template using Passport + flash messages + custom middleware
@@ -79,7 +89,7 @@ createdb <new_db_name>
 
 #### 7. Check the models and migrations for relevance to your project's needs
 
-For example, if your project requires a birthdate field, then don't add that in there. 
+For example, if your project requires a birthdate field, then don't add that in there.
 
 > When changing your models, update both the model and the migration.
 

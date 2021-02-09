@@ -1,10 +1,10 @@
-
+<!--Action = Route, is "profile" correct? -->
 <% if (tracks) { %> <% tracks.forEach(track => { %>
-        
+
         <h4>Name: <%= track.name %></h4>
         <h4>Artist: <%= track.album.artists[0].name %></h4>
         <h4>Preview: <%= track.preview_url %> </h4>
-        <form method="POST" action="/profile"> <!--Action = Route -->
+        <form method="GET" action="/profile">
           <input hidden type="text" name="songId" value="<%= track.id %>">
           <input hidden type="text" name="title" value="<%= track.name %>">
           <input hidden type="text" name="artist" value="<%= track.album.artists[0].name %>">
