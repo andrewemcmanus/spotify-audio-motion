@@ -1,9 +1,30 @@
 <!--Action = Route, is "profile" correct? -->
+<header>
+  <h1><a href="https://audiomotion.dev" class="logo">audioMotion-analyzer</a> | minimal demo</h1>
+  <ul class="header-nav">
+    <li><a href="index.html">Demos</a></li>
+          <li><a href="https://audiomotion.dev">Home</a></li>
+    <li><a href="https://github.com/hvianna/audioMotion-analyzer/tree/master/demo/src/fluid.js">View on GitHub</a></li>
+  </ul>
+</header>
+<div id="container"></div>
+
+<div class="box center">
+  <button id="btn_fullscreen">Fullscreen</button>
+</div>
+
+<div class="credits">
+  <strong>audioMotion-analyzer v<span id="version"></span></strong> Copyright &copy; 2018-2020 Henrique Avila Vianna.	Source code available on <a href="https://github.com/hvianna/audioMotion-analyzer">GitHub</a>.
+  Live stream: <a href="https://federalfm.ufpel.edu.br">Rádio Federal FM</a>.
+</div>
+
 <% if (tracks) { %> <% tracks.forEach(track => { %>
 
         <h4>Name: <%= track.name %></h4>
         <h4>Artist: <%= track.album.artists[0].name %></h4>
-        <h4>Preview: <%= track.preview_url %> </h4>
+        <audio class='audio' id='<%= track.id %>' controls crossorigin="anonymous">
+          <source src="<%= track.preview_url %>" type="audio/mpeg" />
+        </audio>
         <form method="GET" action="/profile">
           <input hidden type="text" name="songId" value="<%= track.id %>">
           <input hidden type="text" name="title" value="<%= track.name %>">
@@ -15,3 +36,39 @@
 <% } else {%>
 <h4>No Results Matching Your Search</h4>
 <% } %>
+
+<script type="module">
+  import AudioMotionAnalyzer from 'https://cdn.skypack.dev/audiomotion-analyzer?min';
+
+  try {
+    var audioMotion = new AudioMotionAnalyzer(
+      document.getElementById('container'),
+      {
+        source: document.getElements('audio'),
+      }
+    );
+   }
+
+  catch( err ) {
+    document.getElementById('container').innerHTML = `<p>audioMotion-analyzer failed with error: <em>${err}</em></p>`;
+  }
+
+  if ( audioMotion ) {
+    // Resume audio context if in suspended state (browsers' autoplay policy)
+    window.addEventListener( 'click', () => {
+      if ( audioMotion.audioCtx.state == 'suspended' )
+        audioMotion.audioCtx.resume();
+    });
+
+    // Display package version in the footer
+    document.getElementById('version').innerText = audioMotion.version;
+
+    // Handle fullscreen button
+    document.getElementById('btn_fullscreen').addEventListener( 'click', () => audioMotion.toggleFullscreen() );
+  }
+</script>
+
+<script>
+  if ( location.href.startsWith('file://') )
+    alert("This demo won't work when loaded via file:// protocol.\nSee the README file inside the demo folder for more information.");
+</script>
