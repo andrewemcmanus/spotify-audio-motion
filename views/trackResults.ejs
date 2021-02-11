@@ -18,25 +18,6 @@
   Live stream: <a href="https://federalfm.ufpel.edu.br">Rádio Federal FM</a>.
 </div>
 
-<% if (tracks) { %> <% tracks.forEach(track => { %>
-
-        <h4>Name: <%= track.name %></h4>
-        <h4>Artist: <%= track.album.artists[0].name %></h4>
-        <audio class='audio' id='<%= track.id %>' controls crossorigin="anonymous">
-          <source src="<%= track.preview_url %>" type="audio/mpeg" />
-        </audio>
-        <form method="GET" action="/profile">
-          <input hidden type="text" name="songId" value="<%= track.id %>">
-          <input hidden type="text" name="title" value="<%= track.name %>">
-          <input hidden type="text" name="artist" value="<%= track.album.artists[0].name %>">
-          <input hidden type="text" name="preview_url" value="<%= track.preview_url %>">
-          <button class="btn btn-primary" type="submit">Add to Favorite Songs</button>
-        </form>
-    <% }) %>
-<% } else {%>
-<h4>No Results Matching Your Search</h4>
-<% } %>
-
 <script type="module">
   import AudioMotionAnalyzer from 'https://cdn.skypack.dev/audiomotion-analyzer?min';
 
@@ -44,7 +25,7 @@
     var audioMotion = new AudioMotionAnalyzer(
       document.getElementById('container'),
       {
-        source: document.getElements('audio'),
+        source: document.getElementById('nowplaying'),
       }
     );
    }
@@ -72,3 +53,21 @@
   if ( location.href.startsWith('file://') )
     alert("This demo won't work when loaded via file:// protocol.\nSee the README file inside the demo folder for more information.");
 </script>
+<% if (tracks) { %> <% tracks.forEach(track => { %>
+
+        <h4>Name: <%= track.name %></h4>
+        <h4>Artist: <%= track.album.artists[0].name %></h4>
+        <audio id='nowplaying' controls crossorigin="anonymous">
+          <source src="<%= track.preview_url %>" type="audio/mpeg" />
+        </audio>
+        <form method="POST" action="/">
+          <input hidden type="text" name="songId" value="<%= track.id %>">
+          <input hidden type="text" name="title" value="<%= track.name %>">
+          <input hidden type="text" name="artist" value="<%= track.album.artists[0].name %>">
+          <input hidden type="text" name="preview_url" value="<%= track.preview_url %>">
+          <button class="btn btn-primary" type="submit">Add to Favorite Songs</button>
+        </form>
+    <% }) %>
+<% } else {%>
+<h4>No Results Matching Your Search</h4>
+<% } %>

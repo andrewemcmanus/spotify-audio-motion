@@ -59,7 +59,7 @@ router.get("/:track", (req, res) => {
           Authorization: `Bearer ${token}`,
         },
       };
-      console.log(token);
+      // console.log(token);
       let track = encodeURIComponent(req.query.track);
       let resultLimit = 20;
       axios
@@ -68,8 +68,11 @@ router.get("/:track", (req, res) => {
           config
         )
         .then((response) => {
-          let tracks = response.data.tracks.items;
-          console.log(tracks);
+          let alltracks = response.data.tracks.items;
+          // console.log(alltracks);
+          let index = Math.floor((Math.random() * 20));
+          console.log(index);
+          let tracks = [alltracks[index]];
           // console.log(tracks[0].artists[0].name);
           res.render('trackResults', { tracks });
         })
@@ -122,32 +125,33 @@ router.get("/:track", (req, res) => {
 
 // ADD TRACK TO FAVES
 // This is spitting out TWO new instances...one with the userId and one without
-// router.post('/', (req, res) => {
-//   db.fave.findOrCreate({
-//       where: { songId: req.body.songId },
-//       // defaults: {
-//       //   title,
-//       //   artist,
-//       //   preview_url
-//       // },
-//     })
-//     .then((fave) => {
-//       db.fave.findOrCreate({
-//         where: {
-//           songId: req.body.songId,
-//           userId: req.session.passport.user,
-//           preview_url: req.body.preview_url
-//         },
-//       });
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     })
-//     .then((result) => {
-//       // console.log(req.body.preview_url);
-//       res.redirect('/profile');
-//     });
-// });
+router.post('/', (req, res) => {
+  db.fave.findOrCreate({
+      where: { songId: req.body.songId },
+      // defaults: {
+      //   title,
+      //   artist,
+      //   preview_url
+      // },
+    })
+    .then((fave) => {
+      db.fave.findOrCreate({
+        where: {
+          songId: req.body.songId,
+          userId: req.session.passport.user,
+          preview_url: req.body.preview_url
+        },
+      });
+      console.log(fave);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .then((result) => {
+      // console.log(req.body.preview_url);
+      res.redirect('/profile');
+    });
+});
 
 // DELETE TRACK FROM FAVES
 // router.delete('/faves/:id', async (req, res) => {
