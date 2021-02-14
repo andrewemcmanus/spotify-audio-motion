@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 })
 
 // USER FAVES
-router.get('/faves', (req, res) => {
+router.get('/profile', (req, res) => {
     db.fave.findAll({
         where: {
             userId: req.session.passport.user
@@ -38,7 +38,7 @@ router.get('/faves', (req, res) => {
 })
 
 // FIND SONGS
-router.get("/:track", (req, res) => {
+router.get("/track/:track", (req, res) => {
   // console.log(req.session.passport.user);
   axios
     .post(
@@ -64,7 +64,7 @@ router.get("/:track", (req, res) => {
       let resultLimit = 20;
       axios
         .get(
-          `https://api.spotify.com/v1/search?q=${track}&type=track,track&offset=0&limit=${resultLimit}`,
+          `https://api.spotify.com/v1/search?q=${track}&type=track&offset=0&limit=${resultLimit}`,
           config
         )
         .then((response) => {
@@ -82,7 +82,7 @@ router.get("/:track", (req, res) => {
     });
 });
 
-// router.get("/:artist", (req, res) => {
+// router.get("/artist/:artist", (req, res) => {
 //   // console.log(req.session.passport.user);
 //   axios
 //     .post(
@@ -103,18 +103,21 @@ router.get("/:track", (req, res) => {
 //           Authorization: `Bearer ${token}`,
 //         },
 //       };
-//       console.log(token);
+//       console.log(req.query.artist);
 //       let artist = encodeURIComponent(req.query.artist);
+//       // console.log(artist);
 //       let resultLimit = 20;
 //       axios
 //         .get(
-//           `https://api.spotify.com/v1/search?q=${track}&type=track,track&offset=0&limit=${resultLimit}`,
+//           `https://api.spotify.com/v1/search?q=${artist}&type=artist&offset=0&limit=${resultLimit}`,
 //           config
 //         )
 //         .then((response) => {
-//           let tracks = response.data.tracks.items;
-//           // console.log(tracks);
-//           // console.log(tracks[0].artists[0].name);
+//           console.log(response.data);
+//           let alltracks = response.data.artists.items;
+//           let index = Math.floor((Math.random() * 20));
+//           console.log(index);
+//           let tracks = [alltracks[index]];
 //           res.render('trackResults', { tracks });
 //         })
 //         .catch((err) => {
@@ -125,31 +128,18 @@ router.get("/:track", (req, res) => {
 
 // ADD TRACK TO FAVES
 // This is spitting out TWO new instances...one with the userId and one without
-router.post('/', (req, res) => {
+router.post('/like/:songId', (req, res) => {
   db.fave.findOrCreate({
-      where: { songId: req.body.songId },
-      // defaults: {
-      //   title,
-      //   artist,
-      //   preview_url
-      // },
-    })
-    .then((fave) => {
-      db.fave.findOrCreate({
-        where: {
-          songId: req.body.songId,
-          userId: req.session.passport.user,
-          preview_url: req.body.preview_url
-        },
-      });
-      console.log(fave);
+    where: {
+      songId: req.params.songId,
+      title: req.body.title,
+      artist: req.body.artist,
+      preview_url: req.body.preview_url,
+      userId: req.session.passport.user,
+    },
     })
     .catch((err) => {
       console.log(err);
-    })
-    .then((result) => {
-      // console.log(req.body.preview_url);
-      res.redirect('/profile');
     });
 });
 

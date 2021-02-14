@@ -64,6 +64,7 @@ app.use('/search', isLoggedIn, require('./routes/user'));
 app.use('/profile', isLoggedIn, require('./routes/user'));
 app.use('/playback', isLoggedIn, require('./routes/user'));
 app.use('/trackResults', isLoggedIn, require('./routes/user'));
+app.use('/likes', isLoggedIn, require('./routes/user'));
 
 
 const PORT = process.env.PORT || 3000;

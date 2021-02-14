@@ -1,0 +1,6 @@
+<% if (faves) { %> <% faves.forEach(fave => { %>
+  <h4>Title: <%= fave.name %></h4>
+<% }) %>
+<% } else { %>
+  <h4>No favorites saved yet!</h4>
+<% } %>

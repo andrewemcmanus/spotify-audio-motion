@@ -55,12 +55,12 @@
 </script>
 <% if (tracks) { %> <% tracks.forEach(track => { %>
 
-        <h4>Name: <%= track.name %></h4>
+        <h4>Title: <%= track.name %></h4>
         <h4>Artist: <%= track.album.artists[0].name %></h4>
         <audio id='nowplaying' controls crossorigin="anonymous">
           <source src="<%= track.preview_url %>" type="audio/mpeg" />
         </audio>
-        <form method="POST" action="/">
+        <form method="POST" action="/like/:songId">
           <input hidden type="text" name="songId" value="<%= track.id %>">
           <input hidden type="text" name="title" value="<%= track.name %>">
           <input hidden type="text" name="artist" value="<%= track.album.artists[0].name %>">
@@ -68,6 +68,6 @@
           <button class="btn btn-primary" type="submit">Add to Favorite Songs</button>
         </form>
     <% }) %>
-<% } else {%>
+<% } else { %>
 <h4>No Results Matching Your Search</h4>
 <% } %>
