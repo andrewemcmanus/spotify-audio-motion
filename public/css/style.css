@@ -146,7 +146,7 @@ ul {
 	100% { -webkit-mask-position: -10%; }
 }
 
-audio {
+#nowplaying {
   display: block;
   width: 100%;
 }
