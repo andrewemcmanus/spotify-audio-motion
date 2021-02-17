@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('faves', {
+    await queryInterface.createTable('likes', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -9,6 +9,12 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       songId: {
+        type: Sequelize.STRING
+      },
+      name: {
+        type: Sequelize.STRING
+      },
+      artist: {
         type: Sequelize.STRING
       },
       userId: {
@@ -28,6 +34,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('faves');
+    await queryInterface.dropTable('likes');
   }
 };

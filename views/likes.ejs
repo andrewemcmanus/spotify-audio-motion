@@ -1,0 +1,6 @@
+<% if (likes) { %> <% likes.forEach(like => { %>
+  <h4>Title: <%= like.name %></h4>
+<% }) %>
+<% } else { %>
+  <h4>No favorites saved yet!</h4>
+<% } %>

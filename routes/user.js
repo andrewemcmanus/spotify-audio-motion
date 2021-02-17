@@ -14,26 +14,26 @@ router.get('/', (req, res) => {
     res.render('search', { tracks: [] })
 })
 
-// USER FAVES
+// USER likeS
 router.get('/profile', (req, res) => {
-    db.fave.findAll({
+    db.like.findAll({
         where: {
             userId: req.session.passport.user
         }
     })
     .then((response) => {
-        let faves = response.data.items;
-        const spotifyIds = faves.map(faves => {
-            return faves.spotify_id
+        let likes = response.data.items;
+        const spotifyIds = likes.map(likes => {
+            return likes.spotify_id
         })
-        return db.faves.findAll({
+        return db.likes.findAll({
             where: {
                 songId: spotifyIds
             }
         })
     })
-    .then((faves) => {
-        res.render('profile', { faves })
+    .then((likes) => {
+        res.render('profile', { likes })
     })
 })
 
@@ -126,27 +126,32 @@ router.get("/track/:track", (req, res) => {
 //     });
 // });
 
-// ADD TRACK TO FAVES
+// ADD TRACK TO likeS
 // This is spitting out TWO new instances...one with the userId and one without
-router.post('/like/:songId', (req, res) => {
-  db.fave.findOrCreate({
+router.post('/', (req, res) => {
+  console.log(req.body);
+  db.like.findOrCreate({
     where: {
-      songId: req.params.songId,
-      title: req.body.title,
-      artist: req.body.artist,
-      preview_url: req.body.preview_url,
-      userId: req.session.passport.user,
+      songId: req.body.songId
     },
-    })
+    songId: req.body.songId,
+    name: req.body.name,
+    artist: req.body.artist,
+    preview_url: req.body.preview_url,
+    userId: req.session.passport.user,
+  }).then((response) => {
+    console.log(response.data)
+    res.render('likes')
+  })
     .catch((err) => {
       console.log(err);
     });
 });
 
-// DELETE TRACK FROM FAVES
-// router.delete('/faves/:id', async (req, res) => {
+// DELETE TRACK FROM likeS
+// router.delete('/likes/:id', async (req, res) => {
 //   let trackDeleteId = req.params.id;
-//   let trackToDelete = await db.fave.destroy({
+//   let trackToDelete = await db.like.destroy({
 //     where: {
 //       songId: trackDeleteId,
 //       userId: req.session.passport.user
@@ -167,6 +172,6 @@ router.put('/', (req, res) => {
 })
 
 // DELETE YOUR GENRE LABEL
-router.delete('/faves/:')
+router.delete('/likes/:')
 
 module.exports = router;

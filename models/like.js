@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class add_preview_url extends Model {
+  class like extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,13 +11,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.like.belongsTo(models.user);
     }
   };
-  add_preview_url.init({
+  like.init({
+    songId: DataTypes.STRING,
+    name: DataTypes.STRING,
+    artist: DataTypes.STRING,
+    userId: DataTypes.INTEGER,
     preview_url: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'add_preview_url',
+    modelName: 'like',
   });
-  return add_preview_url;
+  return like;
 };

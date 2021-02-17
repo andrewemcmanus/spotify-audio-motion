@@ -60,9 +60,9 @@
         <audio id='nowplaying' controls crossorigin="anonymous">
           <source src="<%= track.preview_url %>" type="audio/mpeg" />
         </audio>
-        <form method="POST" action="/like/:songId">
+        <form method="POST" action="/likes">
           <input hidden type="text" name="songId" value="<%= track.id %>">
-          <input hidden type="text" name="title" value="<%= track.name %>">
+          <input hidden type="text" name="name" value="<%= track.name %>">
           <input hidden type="text" name="artist" value="<%= track.album.artists[0].name %>">
           <input hidden type="text" name="preview_url" value="<%= track.preview_url %>">
           <button class="btn btn-primary" type="submit">Add to Favorite Songs</button>
