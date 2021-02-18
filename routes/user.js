@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 })
 
 // USER likeS
-router.get('/profile', (req, res) => {
+router.get('/likes', (req, res) => {
     db.like.findAll({
         where: {
             userId: req.session.passport.user
@@ -33,7 +33,7 @@ router.get('/profile', (req, res) => {
         })
     })
     .then((likes) => {
-        res.render('profile', { likes })
+        res.render('likes', { likes })
     })
 })
 
@@ -82,58 +82,13 @@ router.get("/track/:track", (req, res) => {
     });
 });
 
-// router.get("/artist/:artist", (req, res) => {
-//   // console.log(req.session.passport.user);
-//   axios
-//     .post(
-//       "https://accounts.spotify.com/api/token",
-//       querystring.stringify({
-//         grant_type: "client_credentials",
-//       }),
-//       {
-//         headers: {
-//           Authorization: `Basic ${authKey}`,
-//         },
-//       }
-//     )
-//     .then((response) => {
-//       let token = response.data.access_token;
-//       const config = {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       };
-//       console.log(req.query.artist);
-//       let artist = encodeURIComponent(req.query.artist);
-//       // console.log(artist);
-//       let resultLimit = 20;
-//       axios
-//         .get(
-//           `https://api.spotify.com/v1/search?q=${artist}&type=artist&offset=0&limit=${resultLimit}`,
-//           config
-//         )
-//         .then((response) => {
-//           console.log(response.data);
-//           let alltracks = response.data.artists.items;
-//           let index = Math.floor((Math.random() * 20));
-//           console.log(index);
-//           let tracks = [alltracks[index]];
-//           res.render('trackResults', { tracks });
-//         })
-//         .catch((err) => {
-//           console.log(err);
-//         });
-//     });
-// });
 
-// ADD TRACK TO likeS
+
+// ADD TRACK TO likes
 // This is spitting out TWO new instances...one with the userId and one without
 router.post('/', (req, res) => {
-  console.log(req.body);
-  db.like.findOrCreate({
-    where: {
-      songId: req.body.songId
-    },
+  // console.log(req.body);
+  db.like.create({
     songId: req.body.songId,
     name: req.body.name,
     artist: req.body.artist,
