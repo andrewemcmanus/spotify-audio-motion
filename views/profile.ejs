@@ -62,3 +62,10 @@
   if ( location.href.startsWith('file://') )
     alert("This demo won't work when loaded via file:// protocol.\nSee the README file inside the demo folder for more information.");
 </script>
+
+<% if (likes) { %> <% likes.forEach(like => { %>
+  <h4>Title: <%= like.name %></h4>
+<% }) %>
+<% } else { %>
+  <h4>No favorites saved yet!</h4>
+<% } %>

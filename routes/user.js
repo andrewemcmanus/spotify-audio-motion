@@ -33,7 +33,7 @@ router.get('/likes', (req, res) => {
         })
     })
     .then((likes) => {
-        res.render('likes', { likes })
+        res.render('likeResults', { likes })
     })
 })
 
@@ -85,7 +85,7 @@ router.get("/track/:track", (req, res) => {
 
 
 // ADD TRACK TO likes
-// This is spitting out TWO new instances...one with the userId and one without
+
 router.post('/', (req, res) => {
   // console.log(req.body);
   db.like.create({
@@ -96,7 +96,7 @@ router.post('/', (req, res) => {
     userId: req.session.passport.user,
   }).then((response) => {
     console.log(response.data)
-    res.render('likes')
+    res.redirect('profile')
   })
     .catch((err) => {
       console.log(err);

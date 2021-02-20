@@ -65,9 +65,12 @@
           <input hidden type="text" name="name" value="<%= track.name %>">
           <input hidden type="text" name="artist" value="<%= track.album.artists[0].name %>">
           <input hidden type="text" name="preview_url" value="<%= track.preview_url %>">
-          <button class="btn btn-primary" type="submit">Add to Favorite Songs</button>
+          // <button class="btn btn-primary" type="submit">Add to Favorite Songs</button>
         </form>
     <% }) %>
 <% } else { %>
 <h4>No Results Matching Your Search</h4>
 <% } %>
+<%# <form method="GET" action="/profile">
+  <button type="submit">view favorites</button>
+</form> %>
